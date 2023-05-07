@@ -12,14 +12,17 @@ public class PlayerMovement : MonoBehaviour
     public float jumpforce;
     public float gravityModifier;
     private Animator anim;
-   
+    public GameObject thePlayer;
+    public bool isOnGround = true;
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
         anim = GetComponent<Animator>();
-       
+        playerRb.constraints = RigidbodyConstraints.FreezePositionY;
+        playerRb.constraints = RigidbodyConstraints.FreezePositionX;
+        playerRb.constraints = RigidbodyConstraints.FreezePositionZ;
     }
 
     // Update is called once per frame
@@ -35,8 +38,39 @@ public class PlayerMovement : MonoBehaviour
         // player jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            anim.SetTrigger("Jump");
             playerRb.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
-            
+      
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+         anim.SetTrigger("FWD");
+            anim.SetBool("IsMoving", true);
+       
+        }
+        else
+        {
+            anim.SetBool("IsMoving", false);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+           anim.SetTrigger("BWD");
+
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            anim.SetTrigger("RGT");
+
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            anim.SetTrigger("LFT");
+
+        }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            anim.SetTrigger("Attack");
+
         }
     }
     void Rotation()
@@ -44,6 +78,5 @@ public class PlayerMovement : MonoBehaviour
         // easier way to rotate the player
         transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * 4f, 0));
     }
-
-
+    
 }
