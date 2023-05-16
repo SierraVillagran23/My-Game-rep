@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     public GameObject thePlayer;
     public bool isOnGround = true;
+    public GameObject destroy;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,12 +26,17 @@ public class PlayerMovement : MonoBehaviour
         playerRb.constraints = RigidbodyConstraints.FreezePositionY;
         playerRb.constraints = RigidbodyConstraints.FreezePositionX;
         playerRb.constraints = RigidbodyConstraints.FreezePositionZ;
+
+
     }
 
     // Update is called once per frame
 
     private void Update()
     {
+        playerRb.constraints = RigidbodyConstraints.FreezePositionY;
+        playerRb.constraints = RigidbodyConstraints.FreezePositionX;
+        playerRb.constraints = RigidbodyConstraints.FreezePositionZ;
         // player movement forward and sideways
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
@@ -40,43 +48,58 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetTrigger("Jump");
             playerRb.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
-      
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-         anim.SetTrigger("FWD");
-            anim.SetBool("IsMoving", true);
-       
-        }
-        else
-        {
-            anim.SetBool("IsMoving", false);
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-           anim.SetTrigger("BWD");
 
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            anim.SetTrigger("RGT");
-
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            anim.SetTrigger("LFT");
-
-        }
+        // player jump
         if (Input.GetKeyDown(KeyCode.Return))
         {
             anim.SetTrigger("Attack");
 
+
         }
+        // forward movemnt
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            anim.SetTrigger("FWD");
+            anim.SetBool("IsMoving", true);
+
+        }
+        else
+        {
+            anim.SetBool("IsMoving", false);
+
+        }
+        /// backward movement
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            anim.SetTrigger("BWD");
+            
+
+        }
+       
+        //lefft movement
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            anim.SetTrigger("LFT");
+            
+
+        }
+      
+        //right movement
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            anim.SetTrigger("RGT");
+          
+
+        }
+        
     }
+
     void Rotation()
     {
         // easier way to rotate the player
         transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * 4f, 0));
     }
-    
+   
 }
+
